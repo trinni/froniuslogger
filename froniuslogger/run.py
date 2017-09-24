@@ -2,7 +2,7 @@
 
 from os.path import dirname
 
-from util import get_data_from_api, get_configuration
+from froniuslogger.lib.util import get_configuration, get_data_from_api
 
 here = dirname(__file__)
 
@@ -11,7 +11,7 @@ from pprint import pprint
 
 if __name__ == '__main__':
     api_version, base_url, api_path = get_configuration()
-    data = get_data_from_api(api_path, 'foobardata')
+    data = get_data_from_api(api_path, 'inverter_realtime_data')
 
     pprint(requests.get(api_path))
     print api_version

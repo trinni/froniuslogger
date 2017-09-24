@@ -1,17 +1,29 @@
 # -*- coding: utf-8 -*-
-from froniuslogger.exceptions import UnknownFroniusDataType
-from froniuslogger.util import get_configuration, get_data_from_api
+from pprint import pprint
+
 from unittest2 import TestCase
 
-from froniuslogger import settings
+from froniuslogger.exceptions import UnknownFroniusEndpoint, ResponseIsBad
+from froniuslogger.lib import util
+from froniuslogger.lib.util import get_configuration, get_json_by_url
+from froniuslogger.settings import APIVersion
 
 
 class TestAPIVersion(TestCase):
     def testSupportedVersionConfiguredAsExpected(self):
-        self.assertEquals(settings.APIVersion, 1)
+        self.assertEquals(APIVersion, 1)
 
 
-class TestDataTypeMappings(TestCase):
-    def test_unknown_datatype(self):
+class TestEndpoint(TestCase):
+    def testUnknonwnEndpointFails(self):
         api_version, base_url, api_path = get_configuration()
-        self.assertRaises(UnknownFroniusDataType, get_data_from_api(api_path, 'some_unknown_datatype'))
+        with self.assertRaises(UnknownFroniusEndpoint):
+            endpoint_url = util.get_endpoint_url('GetInverterRealtimeDat.cgi')
+            get_json_by_url(endpoint_url)
+
+    def testIncompleteParametersFails(self):
+        api_version, base_url, api_path = get_configuration()
+        endpoint_url = util.get_endpoint_url('GetInverterRealtimeData.cgi')
+        with self.assertRaises(ResponseIsBad):
+            json = get_json_by_url(endpoint_url)
+
