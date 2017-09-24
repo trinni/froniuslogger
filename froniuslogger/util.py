@@ -24,7 +24,7 @@ def get_configuration():
     assert api_version == Settings.APIVersion
 
     api_path = urlparse.urljoin(Settings.fronius_baseurl, base_url)
-    return api_version, base_url, api_path
+    return api_version, base_url, api_pa
 
 
 def get_data_type_mappings():
