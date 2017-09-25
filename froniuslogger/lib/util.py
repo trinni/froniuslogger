@@ -94,6 +94,12 @@ def assert_response_is_ok(response):
     if response['Head']['Status']['Code'] != 0:
         raise ResponseIsBad(response)
 
-
+def extract_body_from_response(response):
+    depacked = response.json
+    if u'Body' in depacked:
+        return depacked['Body']
+    else:
+        # TODO: eventually raise an exception here
+        return None
 
     # http://192.168.2.5/solar_api/v1/GetInverterRealtimeData.cgi?Scope=Device&DeviceId=1&DataCollection=CommonInverterData

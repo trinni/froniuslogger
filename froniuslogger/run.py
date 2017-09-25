@@ -1,19 +1,20 @@
 #!/usr/bin/env python
 
 from os.path import dirname
-
-from froniuslogger.lib.util import get_configuration, get_data_from_api
-
+import settings
+from froniuslogger.agents.InverterRealtimeDataAgent import InverterRealtimeDataAgent
+from froniuslogger.lib.util import get_configuration
+from pprint import pprint
 here = dirname(__file__)
 
 import requests
-from pprint import pprint
 
 if __name__ == '__main__':
     api_version, base_url, api_path = get_configuration()
-    data = get_data_from_api(api_path, 'inverter_realtime_data')
+    agent = InverterRealtimeDataAgent(settings.fronius_baseurl)
+    response = agent.get_response({'Scope': 'Device', 'DataCollection': 'MinMaxInverterData', 'DeviceId': 1})
 
-    pprint(requests.get(api_path))
+    pprint(response)
     print api_version
     print base_url
     print api_path
