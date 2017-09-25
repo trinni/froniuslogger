@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pprint import pprint
 
 from unittest2 import TestCase
 
