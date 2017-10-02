@@ -30,7 +30,7 @@ class BaseAgent(object):
 
     def get_response(self, parameters=None):
         request_url = self._make_request_url(parameters)
-        response = requests.get(self.api_url, parameters)
+        response = requests.get(self.api_url)
         assert response.status_code == 200
         return response.json()
 
@@ -39,3 +39,4 @@ class BaseAgent(object):
         if parameters and isinstance(parameters, types.DictType):
             request_url = request_url+'?'
             request_url = urllib.urlencode(parameters)
+        return request_url
