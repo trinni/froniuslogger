@@ -17,9 +17,10 @@ class UnknownFroniusEndpoint(BaseException):
 
 
 class ResponseIsBad(BaseException):
-    def __init__(self, value):
-        self.value = value
+    def __init__(self, response, msg):
+        self.value = response
+        self.message = msg
 
     def __str__(self):
-        return 'Response status is bad, either the statuscode was bad or it could not be found in response. Response was: {}'.format(
-            self.value)
+        return 'Error in retrieved response: {}\n Response was: {}'.format(
+            self.message, self.value)

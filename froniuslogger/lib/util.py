@@ -85,14 +85,14 @@ def get_json_by_url(url):
     return response
 
 def assert_response_is_ok(response):
-    if not 'Head' in response:
-        raise ResponseIsBad(response)
-    if not 'Status' in response['Head']:
-        raise ResponseIsBad(response)
-    if not 'Code'in response['Head']['Status']:
-        raise ResponseIsBad(response)
+    """
+    Checks whether or not response is well-formed and status code is ok
+    """
+    if not ('Head' in response and 'Status' in response['Head'] and 'Code'in response['Head']['Status']):
+        raise ResponseIsBad(response, 'Json was malformed')
     if response['Head']['Status']['Code'] != 0:
-        raise ResponseIsBad(response)
+        message = response['Head']['Status']['UserMessage']
+        raise ResponseIsBad(response, message)
 
 def extract_body_from_response(response):
     depacked = response.json
